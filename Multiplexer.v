@@ -5,7 +5,7 @@ module Multiplexer #(
     parameter width = 32
 )
 (
-    input [0:4] CE,
+    input [0:4] CS,
 
     input [width-1:0] din0,
     input [width-1:0] din1,
@@ -44,7 +44,7 @@ module Multiplexer #(
 );
 
 always @(*) begin
-    case (CE)
+    case (CS)
         5'd0: dout = din0; 
         5'd1: dout = din1;
         5'd2: dout = din2;
