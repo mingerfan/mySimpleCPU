@@ -3,13 +3,11 @@
 module CPU_core(
     input clk,
     input rst_n,
-    input [31:0] ROM_IN,
     input RUN,
     output [31:0] ADDR_BUS,
     output [31:0] DATA_WBUS,
     output BUS_VALID,
-    input SLAVE_READY,
-    output [31:0] ROM_ADDR
+    input SLAVE_READY
     );
 
     wire PC_mode;
@@ -37,6 +35,7 @@ module CPU_core(
     wire [31:0] reg_out15;
     wire [31:0] reg_adder_in;   // output of adder input reg
     wire [31:0] reg_adder_out;
+    wire [31:0] reg_addr_out;
 
     wire reg_en0;
     wire reg_en1;
@@ -56,10 +55,14 @@ module CPU_core(
     wire reg_en15;
     wire reg_adder_in_en;
     wire reg_adder_out_en;
+    wire reg_addr_en;
     
 
     wire add_sub_mode;
     wire [31:0] add_sub_out;
+
+    assign ADDR_BUS = reg_addr_out;
+    assign DATA_WBUS = DATA_BUS;
 
     PC_cnt cpu_PC(
         .clk(clk),
@@ -209,8 +212,16 @@ module CPU_core(
     Register_asyn R_ADDER_OUT(
         .clk(clk),
         .rst_n(rst_n),
-        .din(add_sub_out),
+        .din(DATA_BUS),
         .dout(reg_adder_out),
+        .EN(reg_addr_en)
+    );
+
+    Register_asyn R_ADDR(
+        .clk(clk),
+        .rst_n(rst_n),
+        .din(DATA_BUS),
+        .dout(reg_addr_out),
         .EN(reg_adder_out_en)
     );
 
