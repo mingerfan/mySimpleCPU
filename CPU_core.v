@@ -31,24 +31,31 @@ module CPU_core(
     wire [31:0] reg_out13;
     wire [31:0] reg_out14;
     wire [31:0] reg_out15;
+    wire [31:0] reg_adder_in;   // output of adder input reg
+    wire [31:0] reg_adder_out;
 
-    wire [31:0] reg_en0;
-    wire [31:0] reg_en1;
-    wire [31:0] reg_en2;
-    wire [31:0] reg_en3;
-    wire [31:0] reg_en4;
-    wire [31:0] reg_en5;
-    wire [31:0] reg_en6;
-    wire [31:0] reg_en7;
-    wire [31:0] reg_en8;
-    wire [31:0] reg_en9;
-    wire [31:0] reg_en10;
-    wire [31:0] reg_en11;
-    wire [31:0] reg_en12;
-    wire [31:0] reg_en13;
-    wire [31:0] reg_en14;
-    wire [31:0] reg_en15;
+    wire reg_en0;
+    wire reg_en1;
+    wire reg_en2;
+    wire reg_en3;
+    wire reg_en4;
+    wire reg_en5;
+    wire reg_en6;
+    wire reg_en7;
+    wire reg_en8;
+    wire reg_en9;
+    wire reg_en10;
+    wire reg_en11;
+    wire reg_en12;
+    wire reg_en13;
+    wire reg_en14;
+    wire reg_en15;
+    wire reg_adder_in_en;
+    wire reg_adder_out_en;
+    
 
+    wire add_sub_mode;
+    wire [31:0] add_sub_out;
 
     Register_asyn R0(
         .clk(clk),
@@ -178,6 +185,29 @@ module CPU_core(
         .EN(reg_en15)
     );
 
+    Register_asyn R_ADDER_IN(
+        .clk(clk),
+        .rst_n(rst_n),
+        .din(DATA_BUS),
+        .dout(reg_adder_in),
+        .EN(reg_adder_in_en)
+    );
+
+    Register_asyn R_ADDER_OUT(
+        .clk(clk),
+        .rst_n(rst_n),
+        .din(add_sub_out),
+        .dout(reg_adder_out),
+        .EN(reg_adder_out_en)
+    );
+
+    Add_sub cpu_add_sub(
+        .add(add_sub_mode),
+        .num1(reg_adder_in),
+        .num2(DATA_BUS),
+        .result(add_sub_out)
+    );
+
 
     Multiplexer core_mux(
         .CS(ctrl_unit_cs),
@@ -197,7 +227,7 @@ module CPU_core(
         .din13(reg_out13),
         .din14(reg_out14),
         .din15(reg_out15),
-        .din16(32'd0),
+        .din16(reg_adder_out),
         .din17(32'd0),
         .din18(32'd0),
         .din19(32'd0),
@@ -216,7 +246,7 @@ module CPU_core(
         .dout(DATA_BUS)
     );
 
-    
+
     
 endmodule
 

@@ -27,7 +27,7 @@ module Add_sub(
     output [31:0] result
     );
 
-    c_addsub_0 add_sub_m(
+    c_addsub_0 add_sub_ip(
         .A(num1),      // input wire [31 : 0] A
         .B(num2),      // input wire [31 : 0] B
         .ADD(add),  // input wire ADD
