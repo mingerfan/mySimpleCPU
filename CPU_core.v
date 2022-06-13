@@ -12,6 +12,10 @@ module CPU_core(
     output [31:0] ROM_ADDR
     );
 
+    wire PC_mode;
+    wire PC_EN;
+    wire [31:0] PC;
+
     wire [31:0] DATA_BUS;
     wire [4:0] ctrl_unit_cs;
 
@@ -56,6 +60,15 @@ module CPU_core(
 
     wire add_sub_mode;
     wire [31:0] add_sub_out;
+
+    PC_cnt cpu_PC(
+        .clk(clk),
+        .rst_n(rst_n),
+        .mode(PC_mode),
+        .PC(PC),
+        .cnt_in(DATA_BUS),
+        .EN(PC_EN)
+    );
 
     Register_asyn R0(
         .clk(clk),
@@ -228,7 +241,7 @@ module CPU_core(
         .din14(reg_out14),
         .din15(reg_out15),
         .din16(reg_adder_out),
-        .din17(32'd0),
+        .din17(PC),
         .din18(32'd0),
         .din19(32'd0),
         .din20(32'd0),
