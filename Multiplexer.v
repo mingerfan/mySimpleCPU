@@ -5,7 +5,7 @@ module Multiplexer #(
     parameter width = 32
 )
 (
-    input [0:4] CS,
+    input [4:0] CS,
 
     input [width-1:0] din0,
     input [width-1:0] din1,
