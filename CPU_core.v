@@ -4,10 +4,14 @@ module CPU_core(
     input clk,
     input rst_n,
     input RUN,
-    output [31:0] ADDR_BUS,
-    output [31:0] DATA_WBUS,
-    output BUS_VALID,
-    input SLAVE_READY
+    output [31:0] BUS_addr,
+    output [31:0] BUS_wdata,
+    input [31:0] BUS_rdata,
+    output BUS_valid,
+    input BUS_wready,
+    output BUS_rready,
+    input BUS_rvalid,
+    output BUS_mode
     );
 
     wire PC_mode;
@@ -61,8 +65,16 @@ module CPU_core(
     wire add_sub_mode;
     wire [31:0] add_sub_out;
 
-    assign ADDR_BUS = reg_addr_out;
-    assign DATA_WBUS = DATA_BUS;
+    wire mode_BUS;
+    wire rdata_valid_BUS;
+    wire write_done_BUS;
+    wire start_transaction_BUS;
+    wire [31:0] rdata_BUS;
+    wire [31:0] addr_BUS;
+    wire [31:0] wdata_BUS;
+
+    assign addr_BUS = reg_addr_out;
+    assign wdata_BUS = DATA_BUS;
 
     PC_cnt cpu_PC(
         .clk(clk),
@@ -212,9 +224,9 @@ module CPU_core(
     Register_asyn R_ADDER_OUT(
         .clk(clk),
         .rst_n(rst_n),
-        .din(DATA_BUS),
+        .din(add_sub_out),
         .dout(reg_adder_out),
-        .EN(reg_addr_en)
+        .EN(reg_adder_out_en)
     );
 
     Register_asyn R_ADDR(
@@ -222,7 +234,7 @@ module CPU_core(
         .rst_n(rst_n),
         .din(DATA_BUS),
         .dout(reg_addr_out),
-        .EN(reg_adder_out_en)
+        .EN(reg_addr_en)
     );
 
     Add_sub cpu_add_sub(
@@ -253,8 +265,8 @@ module CPU_core(
         .din15(reg_out15),
         .din16(reg_adder_out),
         .din17(PC),
-        .din18(32'd0),
-        .din19(32'd0),
+        .din18(rdata_BUS),
+        .din19(reg_addr_out),
         .din20(32'd0),
         .din21(32'd0),
         .din22(32'd0),
@@ -270,7 +282,25 @@ module CPU_core(
         .dout(DATA_BUS)
     );
 
-
+    BUS_controller CPU_BUS (
+        .clk(clk),
+        .rst_n(rst_n),
+        .mode(mode_BUS),
+        .rdata_valid(rdata_valid_BUS),
+        .write_done(write_done_BUS),
+        .start_transaction(start_transaction_BUS),
+        .rdata(rdata_BUS),
+        .addr(addr_BUS),
+        .wdata(wdata_BUS),
+        .BUS_addr(BUS_addr),
+        .BUS_wdata(BUS_wdata),
+        .BUS_rdata(BUS_rdata),
+        .BUS_valid(BUS_valid),
+        .BUS_wready(BUS_wready),
+        .BUS_rready(BUS_rready),
+        .BUS_rvalid(BUS_rvalid),
+        .BUS_mode(BUS_mode)
+    );
     
 endmodule
 
