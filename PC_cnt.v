@@ -3,34 +3,34 @@
 module PC_cnt(
     input clk,
     input rst_n,
+    input [1:0] CS,
     input mode,
     output [31:0] PC,
-    input [31:0] cnt_in,
+    input [31:0] ALU_din,
+    input [31:0] Reg_din0,
+    input [31:0] Reg_din1,
+    input [31:0] IM_din,
     input EN
     );
 
-    wire [31:0] PC_inc;
-    wire [31:0] mux_out;
-    wire [31:0] pc_r_out;
+    wire [31:0] cnt_in;
 
-    assign PC = pc_r_out;
-    assign PC_inc = pc_r_out + 32'd4;
+    Multiplexer4to1 PC_mux(
+        .CS(CS),
+        .din0(ALU_din),
+        .din1(Reg_din0),
+        .din2(Reg_din1),
+        .din3(IM_din),
+        .dout(cnt_in)
+    );
 
-    Register_asyn pc_r(
+    PC_cnt_in cpu_PC(
         .clk(clk),
         .rst_n(rst_n),
-        .din(mux_out),
-        .dout(pc_r_out),
+        .mode(PC_mode),
+        .PC(PC),
+        .cnt_in(cnt_in),
         .EN(EN)
     );
-
-
-
-    Multiplexer2to1 pc_mux(
-        // mode = 0, increase 4
-        .CS(mode),
-        .din0(PC_inc),
-        .din1(cnt_in),
-        .dout(mux_out)
-    );
+    
 endmodule
