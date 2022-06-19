@@ -33,6 +33,7 @@ module control_logic(
     output reg output_done,
     output wire ins_reg_en,
     output reg reg_wen,
+    output reg [2:0] reg_CS,
     output reg [1:0] PC_CS,
     output reg PC_EN,
     output reg PC_mode,
@@ -125,6 +126,22 @@ module control_logic(
         end
         else begin
             reg_wen = 1'b0;
+        end
+    end
+
+    always @(*) begin
+        reg_CS = `reg_CS_ALU;
+        if (Mex && (ins_ADD || ins_ADDI || ins_SUB)) begin
+            reg_CS = `reg_CS_ALU;
+        end
+        else if (Mex && ins_LW) begin
+            reg_CS = `reg_CS_BUS;
+        end
+        else if (Mex && ins_LUI) begin
+            reg_CS = `reg_CS_IM;
+        end
+        else if (Mex && ins_JAL) begin
+            reg_CS = `reg_CS_PC;
         end
     end
 

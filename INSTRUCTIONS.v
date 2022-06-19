@@ -43,6 +43,13 @@
 `define PC_mode_inc 2'd0
 `define PC_mode_jal 2'd1
 
+`define reg_CS_ALU    3'd0
+`define reg_CS_rdata1 3'd1
+`define reg_CS_rdata2 3'd2
+`define reg_CS_PC     3'd3
+`define reg_CS_IM     3'd4
+`define reg_CS_BUS    3'd5
+
 `define ALU_mode_ADD 1'b1
 `define ALU_mode_SUB 1'b0
 

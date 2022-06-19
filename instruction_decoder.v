@@ -32,10 +32,14 @@ module instruction_decoder(
     output [31:0] IM,
     output reg [4:0] reg_rs1,
     output reg [4:0] reg_rs2,
-    output reg [4:0] reg_rd
+    output reg [4:0] reg_rd,
+    output [1:0] cnt_set
     );
 
     wire R, I, S, J, IMM, LUI;
+
+    reg [1:0] cnt_set_r;
+    assign cnt_set = cnt_set_r;
 
     reg [31:0] IM_in;
     assign IM = IM_in;
@@ -143,6 +147,34 @@ module instruction_decoder(
         end
         else begin
             reg_rd = 5'b0;
+        end
+    end
+
+    always @(*) begin
+        cnt_set_r = 2'd0;
+        if (ins_ADD) begin
+            cnt_set_r = `ADD_cnt;
+        end
+        else if (ins_ADDI) begin
+            cnt_set_r = `ADDI_cnt;
+        end
+        else if (ins_SUB) begin
+            cnt_set_r = `SUB_cnt;
+        end
+        else if (ins_JAL) begin
+            cnt_set_r = `JAL_cnt;
+        end
+        else if (ins_LUI) begin
+            cnt_set_r = `LUI_cnt;
+        end
+        else if (ins_SW) begin
+            cnt_set_r = `SW_cnt;
+        end
+        else if (ins_LW) begin
+            cnt_set_r = `LW_cnt;
+        end
+        else begin
+            cnt_set_r = 2'd0;
         end
     end
 

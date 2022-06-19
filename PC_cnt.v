@@ -27,7 +27,7 @@ module PC_cnt(
     PC_cnt_in cpu_PC(
         .clk(clk),
         .rst_n(rst_n),
-        .mode(PC_mode),
+        .mode(mode),
         .PC(PC),
         .cnt_in(cnt_in),
         .EN(EN)

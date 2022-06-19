@@ -91,7 +91,8 @@ module comtrol_unit(
         .IM(IM),
         .reg_rs1(reg_rs1),
         .reg_rs2(reg_rs2),
-        .reg_rd(reg_rd)
+        .reg_rd(reg_rd),
+        .cnt_set(cnt_set)
     );
 
     control_logic core_logic(
@@ -107,6 +108,7 @@ module comtrol_unit(
         .output_done(done),
         .ins_reg_en(ins_reg_EN),
         .reg_wen(reg_wen),
+        .reg_CS(reg_mux_CS),
         .PC_CS(PC_CS),
         .PC_EN(PC_EN),
         .PC_mode(PC_mode),

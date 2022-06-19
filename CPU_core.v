@@ -24,9 +24,9 @@ module CPU_core(
     wire [2:0] addr_CS;
     wire [2:0] data_CS; 
 
-    wire [31:0] reg_raddr1;
-    wire [31:0] reg_raddr2;
-    wire [31:0] reg_waddr;
+    wire [4:0] reg_raddr1;
+    wire [4:0] reg_raddr2;
+    wire [4:0] reg_waddr;
     wire reg_wen;
     wire [31:0] reg_rdata1;
     wire [31:0] reg_rdata2;

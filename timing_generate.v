@@ -143,6 +143,7 @@ module timing_generate(
             T2_r = 1'b0;
             T3_r = 1'b0;
             T4_r = 1'b0;
+            cnt = 2'd0;
         end
         else begin
             case (next_state)
@@ -171,6 +172,7 @@ module timing_generate(
                     T4_r = 1'b0;                    
                 end
                 EX1: begin
+                    cnt = cnt_set;
                     Mif_r = 1'b0;
                     Mex_r = 1'b1;
                     T1_r = 1'b1;
