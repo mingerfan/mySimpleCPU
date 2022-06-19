@@ -21,21 +21,8 @@ module CPU_core(
 
     wire [31:0] IM;
 
-    // wire [31:0] DATA_BUS;
-    // wire [4:0] ctrl_unit_cs;
-
     wire [1:0] addr_CS;
-    wire [2:0] data_CS;
-    
-    // wire [31:0] ALU_din;
-    // wire [31:0] reg_din0;
-    // wire [31:0] reg_din1;
-    // wire [31:0] IM_din;
-    // wire [31:0] ALU_addrin;
-    // wire [31:0] reg_addrin0;
-    // wire [31:0] reg_addrin1;
-    // wire [31:0] PC_addrin;
-    // wire [31:0] IM_addrin;
+    wire [2:0] data_CS; 
 
     wire [31:0] reg_raddr1;
     wire [31:0] reg_raddr2;
@@ -92,7 +79,7 @@ module CPU_core(
         .din6(32'd0),
         .din7(32'd0),
         .dout(reg_wdata)
-    )
+    );
 
     Regfile CPU_Reg(
         .clk_n(clk),
