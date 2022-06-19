@@ -19,8 +19,10 @@ module CPU_core(
     wire PC_EN;
     wire [31:0] PC;
 
+    wire [31:0] IM;
+
     // wire [31:0] DATA_BUS;
-    wire [4:0] ctrl_unit_cs;
+    // wire [4:0] ctrl_unit_cs;
 
     wire [1:0] addr_CS;
     wire [2:0] data_CS;
@@ -42,9 +44,11 @@ module CPU_core(
     wire [31:0] reg_rdata1;
     wire [31:0] reg_rdata2;
     wire [31:0] reg_wdata;
+    wire [2:0] reg_CS;
     
-    wire add_sub_mode;
-    wire [31:0] add_sub_out;
+    wire ALU_mode;
+    wire [1:0] ALU_CS;
+    wire [31:0] ALU_out;
 
     wire mode_BUS;
     wire rdata_valid_BUS;
@@ -59,20 +63,36 @@ module CPU_core(
         .CS(PC_CS),
         .mode(PC_mode),
         .PC(PC),
-        .ALU_din(add_sub_out),
+        .ALU_din(ALU_out),
         .Reg_din0(reg_rdata1),
         .Reg_din1(reg_rdata2),
-        .IM_din(),
+        .IM_din(IM),
         .EN(EN)
     );
 
 
-    Add_sub cpu_add_sub(
-        .add(add_sub_mode),
-        .num1(reg_raddr1),
-        .num2(reg_rdata2),
-        .result(add_sub_out)
+    ALU ALU(
+        .ALU_mode(ALU_mode),
+        .num1_CS(ALU_CS),
+        .PC_din_num1(PC),
+        .IM_din_num1(),
+        .reg_din0_num1(reg_rdata1),
+        .reg_din1_num2(reg_rdata2),
+        .ALU_out(ALU_out)
     );
+
+    Multiplexer8to1 regfile_mux(
+        .CS(reg_CS),
+        .din0(ALU_out),
+        .din1(reg_rdata1),
+        .din2(reg_rdata2),
+        .din3(PC),
+        .din4(IM),
+        .din5(32'd0),
+        .din6(32'd0),
+        .din7(32'd0),
+        .dout(reg_wdata)
+    )
 
     Regfile CPU_Reg(
         .clk_n(clk),
@@ -92,15 +112,15 @@ module CPU_core(
         .mode(mode_BUS),
         .addr_CS(addr_CS),
         .data_CS(data_CS),
-        .ALU_din(add_sub_out),
+        .ALU_din(ALU_out),
         .reg_din0(reg_rdata1),
         .reg_din1(reg_rdata2),
-        .IM_din(),
-        .ALU_addrin(add_sub_out),
+        .IM_din(IM),
+        .ALU_addrin(ALU_out),
         .reg_addrin0(reg_rdata1),
         .reg_addrin1(reg_rdata2),
         .PC_addrin(PC),
-        .IM_addrin(),
+        .IM_addrin(IM),
         .rdata_valid(rdata_valid_BUS),
         .write_done(write_done_BUS),
         .start_transaction(start_transaction_BUS),
