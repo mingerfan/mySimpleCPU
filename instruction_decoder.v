@@ -28,7 +28,10 @@ module instruction_decoder(
     output ins_LW, // load data to reg
     output ins_ADDI, // immediate add
     output ins_LUI, // load immediate number
-    output [31:0] IM
+    output [31:0] IM,
+    output reg [4:0] reg_rs1,
+    output reg [4:0] reg_rs2,
+    output reg [4:0] reg_rd
     );
 
     wire R, I, S, J, IMM, LUI;
@@ -71,6 +74,66 @@ module instruction_decoder(
         end
         else begin
             IM_in = 32'b0;
+        end
+    end
+
+    always @(*) begin
+        reg_rs1 = 5'b0;
+        if (ins_LW) begin
+            reg_rs1 = instruction[`rs1_range];
+        end
+        else if (ins_SW) begin
+            reg_rs1 = instruction[`rs1_range];
+        end
+        else if (ins_ADD) begin
+            reg_rs1 = instruction[`rs1_range];
+        end
+        else if (ins_SUB) begin
+            reg_rs1 = instruction[`rs1_range];
+        end
+        else if (ins_ADDI) begin
+            reg_rs1 = instruction[`rs1_range];
+        end
+        else begin
+            reg_rs1 = 5'b0;
+        end
+    end
+
+    always @(*) begin
+        reg_rs2 = 5'b0;
+        if (ins_SW) begin
+            reg_rs2 = instruction[`rs2_range];
+        end
+        else if (ins_ADD) begin
+            reg_rs2 = instruction[`rs2_range];
+        end
+        else if (ins_SUB) begin
+            reg_rs2 = instruction[`rs2_range];
+        end
+        else begin
+            reg_rs2 = 5'b0;
+        end
+    end
+
+    always @(*) begin
+        reg_rd = 5'b0;
+        if (ins_LW) begin
+            reg_rd = instruction[`rd_range];
+        end
+        else if (ins_ADD) begin
+            reg_rd = instruction[`rd_range];
+        end
+        else if (ins_SUB) begin
+            reg_rd = instruction[`rd_range];
+        end
+        else if (ins_ADDI) begin
+            reg_rd = instruction[`rd_range];
+        end
+        else if (ins_LUI) begin
+            reg_rd = instruction[`rd_range];
+        end
+        else begin
+            reg_rd = 5'b0;
         end
     end
 

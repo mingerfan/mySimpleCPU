@@ -85,7 +85,10 @@ module comtrol_unit(
         .ins_LW(ins_LW),
         .ins_ADDI(ins_ADDI),
         .ins_LUI(ins_LUI),
-        .IM(IM)
+        .IM(IM),
+        .reg_rs1(reg_rs1),
+        .reg_rs2(reg_rs2),
+        .reg_rd(reg_rd)
     );
 
 endmodule

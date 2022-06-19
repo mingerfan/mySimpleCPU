@@ -22,3 +22,7 @@
 `define OP_range 6:0
 `define FUN3_range 14:12
 `define FUN7_range 31:25
+
+`define rs1_range 19:15
+`define rs2_range 24:20
+`define rd_range 11:7
