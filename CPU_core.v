@@ -21,7 +21,7 @@ module CPU_core(
 
     wire [31:0] IM;
 
-    wire [1:0] addr_CS;
+    wire [2:0] addr_CS;
     wire [2:0] data_CS; 
 
     wire [31:0] reg_raddr1;
@@ -54,7 +54,7 @@ module CPU_core(
         .Reg_din0(reg_rdata1),
         .Reg_din1(reg_rdata2),
         .IM_din(IM),
-        .EN(EN)
+        .EN(PC_EN)
     );
 
 
@@ -120,6 +120,28 @@ module CPU_core(
         .BUS_rready(BUS_rready),
         .BUS_rvalid(BUS_rvalid),
         .BUS_mode(BUS_mode)
+    );
+
+    comtrol_unit CPU_control(
+        .clk(clk),
+        .rst_n(rst_n),
+        .RUN(RUN),
+        .BUS_rdata_valid(rdata_valid_BUS),
+        .BUS_write_done(write_done_BUS),
+        .reg_mux_CS(reg_CS),
+        .reg_rd(reg_waddr),
+        .reg_rs1(reg_raddr1),
+        .reg_rs2(reg_raddr2),
+        .reg_wen(reg_wen),
+        .PC_CS(PC_CS),
+        .PC_EN(PC_EN),
+        .PC_mode(PC_mode),
+        .ALU_mode(ALU_mode),
+        .ALU_CS(ALU_CS),
+        .BUS_ADDR_CS(addr_CS),
+        .BUS_DATA_CS(data_CS),
+        .BUS_mode(mode_BUS),
+        .BUS_start_transaction(start_transaction_BUS)
     );
     
 endmodule

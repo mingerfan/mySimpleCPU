@@ -5,7 +5,6 @@ module PC_cnt(
     input rst_n,
     input [1:0] CS,
     input mode,
-    input PC_mode,
     output [31:0] PC,
     input [31:0] ALU_din,
     input [31:0] Reg_din0,
