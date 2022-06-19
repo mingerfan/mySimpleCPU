@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "INSTRUCTIONS.v"
 
 module comtrol_unit(
     input clk,
@@ -74,6 +74,6 @@ module comtrol_unit(
         .T4(T4)
     );
 
-    
+
 
 endmodule

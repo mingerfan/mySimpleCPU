@@ -6,7 +6,7 @@
 `define LUI_OP 7'd011_0111
 
 
-`deifne R_FUN7_ADD 7'b000_0000
+`define R_FUN7_ADD 7'b000_0000
 `define R_FUN7_SUB 7'b010_0000
 
 
