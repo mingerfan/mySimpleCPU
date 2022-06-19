@@ -34,7 +34,8 @@ module CPU_core(
     wire [2:0] reg_CS;
     
     wire ALU_mode;
-    wire [1:0] ALU_CS;
+    wire [1:0] ALU_CS1;
+    wire [1:0] ALU_CS2;
     wire [31:0] ALU_out;
 
     wire mode_BUS;
@@ -60,11 +61,12 @@ module CPU_core(
 
     ALU ALU(
         .ALU_mode(ALU_mode),
-        .num1_CS(ALU_CS),
-        .PC_din_num1(PC),
-        .IM_din_num1(IM),
-        .reg_din0_num1(reg_rdata1),
-        .reg_din1_num2(reg_rdata2),
+        .num1_CS(ALU_CS1),
+        .num2_CS(ALU_CS2),
+        .PC_din(PC),
+        .IM_din(IM),
+        .reg_din0(reg_rdata1),
+        .reg_din1(reg_rdata2),
         .ALU_out(ALU_out)
     );
 
@@ -139,7 +141,8 @@ module CPU_core(
         .PC_EN(PC_EN),
         .PC_mode(PC_mode),
         .ALU_mode(ALU_mode),
-        .ALU_CS(ALU_CS),
+        .ALU_CS1(ALU_CS1),
+        .ALU_CS2(ALU_CS2),
         .BUS_ADDR_CS(addr_CS),
         .BUS_DATA_CS(data_CS),
         .BUS_mode(mode_BUS),
