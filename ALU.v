@@ -21,7 +21,7 @@
 
 
 module ALU(
-    input ALU_mode,
+    input ALU_mode, // mode 1 is add
     input [1:0] num1_CS,
     input [1:0] num2_CS,
     input [31:0] PC_din,

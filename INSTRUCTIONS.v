@@ -27,10 +27,45 @@
 `define rs2_range 24:20
 `define rd_range 11:7
 
-`define ADD_cnt 2'd0
+`define ADD_cnt  2'd0
 `define ADDI_cnt 2'd0
-`define SUB_cnt 2'd0
-`define JAL_cnt 2'd0
-`define LUI_cnt 2'd0
-`define SW_cnt 2'd0
-`define SW_cnt 2'd1
+`define SUB_cnt  2'd0
+`define JAL_cnt  2'd0
+`define LUI_cnt  2'd0
+`define SW_cnt   2'd1
+`define LW_cnt   2'd2
+
+`define PC_CS_ALU  2'd0
+`define PC_CS_reg1 2'd1
+`define PC_CS_reg2 2'd2
+`define PC_CS_IM   2'd3
+
+`define PC_mode_inc 2'd0
+`define PC_mode_jal 2'd1
+
+`define ALU_mode_ADD 1'b1
+`define ALU_mode_SUB 1'b0
+
+`define ALU_CS1_reg0 2'd0
+`define ALU_CS1_IM   2'd1
+`define ALU_CS1_PC   2'd2
+`define ALU_CS1_reg1 2'd3
+
+`define ALU_CS2_reg0 2'd0
+`define ALU_CS2_IM   2'd1
+`define ALU_CS2_PC   2'd2
+`define ALU_CS2_reg1 2'd3
+
+`define BUS_ADDR_CS_ALU  3'd0
+`define BUS_ADDR_CS_reg0 3'd1
+`define BUS_ADDR_CS_reg1 3'd2
+`define BUS_ADDR_CS_PC   3'd3
+`define BUS_ADDR_CS_IM   3'd4
+
+`define BUS_DATA_CS_ALU  2'd0
+`define BUS_DATA_CS_reg0 2'd1
+`define BUS_DATA_CS_reg1 2'd2
+`define BUS_DATA_CS_IM   2'd3
+
+`define BUS_mode_READ  1'b0
+`define BUS_mode_WRITE 1'b1
