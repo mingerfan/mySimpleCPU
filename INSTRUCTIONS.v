@@ -17,7 +17,7 @@
 
 `define IMM_FUN3_ADDI 3'b000
 
-`define S_FUN3_SW 3'd010
+`define S_FUN3_SW 3'b010
 
 `define OP_range 6:0
 `define FUN3_range 14:12

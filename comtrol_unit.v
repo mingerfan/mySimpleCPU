@@ -54,7 +54,7 @@ module comtrol_unit(
 
     wire [31:0] reg_instruction;
     wire ins_ADD, ins_SUB, ins_SW, ins_LW, 
-        ins_ADDI, ins_LUI;
+        ins_ADDI, ins_LUI, ins_JAL;
 
     Register_asyn ins_reg(
         .clk(clk),
@@ -86,6 +86,7 @@ module comtrol_unit(
         .ins_LW(ins_LW),
         .ins_ADDI(ins_ADDI),
         .ins_LUI(ins_LUI),
+        .ins_JAL(ins_JAL),
         .IM(IM),
         .reg_rs1(reg_rs1),
         .reg_rs2(reg_rs2),
