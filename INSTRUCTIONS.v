@@ -26,3 +26,11 @@
 `define rs1_range 19:15
 `define rs2_range 24:20
 `define rd_range 11:7
+
+`define ADD_cnt 2'd0
+`define ADDI_cnt 2'd0
+`define SUB_cnt 2'd0
+`define JAL_cnt 2'd0
+`define LUI_cnt 2'd0
+`define SW_cnt 2'd0
+`define SW_cnt 2'd1
