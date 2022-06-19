@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`include "INSTRUCTIONS.v"
+
 
 module comtrol_unit(
     input clk,
@@ -40,7 +40,8 @@ module comtrol_unit(
     output [2:0] BUS_ADDR_CS,
     output [2:0] BUS_DATA_CS,
     output BUS_mode,
-    output BUS_start_transaction
+    output BUS_start_transaction,
+    output [31:0] IM
     );
 
     wire stop;
@@ -51,6 +52,8 @@ module comtrol_unit(
     reg ins_reg_EN;
 
     wire [31:0] reg_instruction;
+    wire ins_ADD, ins_SUB, ins_SW, ins_LW, 
+        ins_ADDI, ins_LUI;
 
     Register_asyn ins_reg(
         .clk(clk),
@@ -74,6 +77,15 @@ module comtrol_unit(
         .T4(T4)
     );
 
-
+    instruction_decoder decoder(
+        .instruction(reg_instruction),
+        .ins_ADD(ins_ADD),
+        .ins_SUB(ins_SUB),
+        .ins_SW(ins_SW),
+        .ins_LW(ins_LW),
+        .ins_ADDI(ins_ADDI),
+        .ins_LUI(ins_LUI),
+        .IM(IM)
+    );
 
 endmodule

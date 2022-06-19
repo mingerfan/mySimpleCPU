@@ -143,7 +143,8 @@ module CPU_core(
         .BUS_ADDR_CS(addr_CS),
         .BUS_DATA_CS(data_CS),
         .BUS_mode(mode_BUS),
-        .BUS_start_transaction(start_transaction_BUS)
+        .BUS_start_transaction(start_transaction_BUS),
+        .IM(IM)
     );
     
 endmodule

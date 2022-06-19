@@ -1,9 +1,9 @@
 `define R_OP 7'b011_0011
 `define I_OP 7'b000_0011
-`define S_OP 7'd010_0011
-`define J_OP 7'd110_1111
-`define IMM_OP 7'd001_0011
-`define LUI_OP 7'd011_0111
+`define S_OP 7'b010_0011
+`define J_OP 7'b110_1111
+`define IMM_OP 7'b001_0011
+`define LUI_OP 7'b011_0111
 
 
 `define R_FUN7_ADD 7'b000_0000
@@ -18,3 +18,7 @@
 `define IMM_FUN3_ADDI 3'b000
 
 `define S_FUN3_SW 3'd010
+
+`define OP_range 6:0
+`define FUN3_range 14:12
+`define FUN7_range 31:25
