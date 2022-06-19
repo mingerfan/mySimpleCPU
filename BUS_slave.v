@@ -59,6 +59,8 @@ reg BUS_rvalid_r;
 
 reg write_en_r, read_en_r;
 
+wire addr_match;
+
 assign addr = addr_match ? (BUS_addr - START_ADDR) : 0;
 assign wdata = BUS_wdata;
 assign BUS_rdata = BUS_rdata_r;
@@ -68,7 +70,6 @@ assign BUS_rvalid = BUS_rvalid_r;
 assign write_en = write_en_r;
 assign read_en = read_en_r;
 
-wire addr_match;
 
 assign addr_match = (BUS_addr >= START_ADDR) && (BUS_addr <= END_ADDR);
 
@@ -179,18 +180,18 @@ always @(*) begin
         end
         READ: begin
             if (BUS_valid && BUS_rready) begin
-                next_state <= IDLE;
+                next_state = IDLE;
             end
             else begin
-                next_state <= READ;
+                next_state = READ;
             end
         end
         WRITE: begin
             if (BUS_valid && BUS_wready) begin
-                next_state <= IDLE;
+                next_state = IDLE;
             end
             else begin
-                next_state <= WRITE;
+                next_state = WRITE;
             end
         end
         default: next_state = IDLE; 

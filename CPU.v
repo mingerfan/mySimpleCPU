@@ -50,8 +50,8 @@ module MyCPU(
     );
 
     RAM_Slave my_slave (
-        .clk(sys_clk),
-        .rst_n(sys_rst_n),
+        .clk(clk),
+        .rst_n(rst_n),
         .BUS_addr(BUS_addr),
         .BUS_wdata(BUS_wdata),
         .BUS_rdata(BUS_rdata),
