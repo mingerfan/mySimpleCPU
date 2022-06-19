@@ -32,7 +32,9 @@ module timing_generate(
     output T1,
     output T2,
     output T3,
-    output T4
+    output T4,
+    output T1_Mif,
+    output T2_Mif
     );
 
     parameter [2:0] IDLE = 3'd0,
@@ -46,11 +48,34 @@ module timing_generate(
     reg [3:0] cur_state, next_state;
     reg [1:0] cnt;
     reg Mif_r, Mex_r, T1_r, T2_r, T3_r, T4_r;
+    reg T1_Mif_r, T2_Mif_r;
 
     reg T1_act, T2_act, T3_act, T4_act;
+    reg T1_Mif_act, T2_Mif_act;
+
+    assign T1_Mif = T1_Mif_r;
+    assign T2_Mif = T2_Mif_r;
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n || (next_state != EX1 && next_state != IF1)) begin
+        if (!rst_n || next_state != IF1) begin
+            T1_Mif_act <= 1'b0;
+        end
+        else if (T1_Mif_r) begin
+            T1_Mif_act <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || next_state != IF2) begin
+            T2_Mif_act <= 1'b0;
+        end
+        else if (T2_Mif_act) begin
+            T2_Mif_act <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || next_state != EX1) begin
             T1_act <= 1'b0;
         end
         else if (T1) begin
@@ -124,7 +149,7 @@ module timing_generate(
                 if (stop) begin
                     next_state = IDLE;
                 end
-                else if (done && ~stop) begin
+                else if (~stop) begin
                     next_state = EX1;
                 end
                 else begin
@@ -199,11 +224,11 @@ module timing_generate(
                     T2_r = 1'b0;
                     T3_r = 1'b0;
                     T4_r = 1'b0;
-                    if (~T1_act && ~T1) begin
-                        T1_r = 1'b1;
+                    if (~T1_Mif_act && ~T1_Mif_r) begin
+                        T1_Mif_r = 1'b1;
                     end
                     else begin
-                        T1_r = 1'b0;
+                        T1_Mif_r = 1'b0;
                     end 
                 end 
                 IF2: begin
@@ -212,11 +237,11 @@ module timing_generate(
                     T1_r = 1'b0;
                     T3_r = 1'b0;
                     T4_r = 1'b0; 
-                    if (~T2_act && ~T2) begin
-                        T2_r = 1'b1;
+                    if (~T2_Mif_act && ~T2_Mif_r) begin
+                        T2_Mif_r = 1'b1;
                     end
                     else begin
-                        T2_r = 1'b0;
+                        T2_Mif_r = 1'b0;
                     end                          
                 end
                 EX1: begin

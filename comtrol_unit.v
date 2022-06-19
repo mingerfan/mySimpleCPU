@@ -49,6 +49,7 @@ module comtrol_unit(
     wire done;
     wire [1:0] cnt_set;
     wire Mif, Mex, T1, T2, T3, T4;
+    wire T1_Mif, T2_Mif;
 
     wire ins_reg_EN;
 
@@ -76,7 +77,9 @@ module comtrol_unit(
         .T1(T1),
         .T2(T2),
         .T3(T3),
-        .T4(T4)
+        .T4(T4),
+        .T1_Mif(T1_Mif),
+        .T2_Mif(T2_Mif)
     );
 
     instruction_decoder decoder(
@@ -105,6 +108,8 @@ module comtrol_unit(
         .T2(T2),
         .T3(T3),
         .T4(T4),
+        .T1_Mif(T1_Mif),
+        .T2_Mif(T2_Mif),
 
         .output_done(done),
         .ins_reg_en(ins_reg_EN),

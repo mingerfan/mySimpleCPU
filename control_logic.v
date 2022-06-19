@@ -29,6 +29,8 @@ module control_logic(
     input T2,
     input T3,
     input T4,
+    input T1_Mif,
+    input T2_Mif,
 
     output reg output_done,
     output wire ins_reg_en,
@@ -74,7 +76,7 @@ module control_logic(
 
     always @(*) begin
         BUS_start_transaction = 1'b0;
-        if (Mif && T1) begin
+        if (Mif && T1_Mif) begin
             BUS_start_transaction = 1'b1;
         end
         else if (Mex && ins_SW && T2) begin
@@ -171,7 +173,7 @@ module control_logic(
 
     always @(*) begin
         PC_EN = 1'b0;
-        if (Mif && T1) begin
+        if (Mif && T1_Mif) begin
             PC_EN = 1'b1;
         end
         else if (Mex && ins_JAL) begin
