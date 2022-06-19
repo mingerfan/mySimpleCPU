@@ -33,14 +33,15 @@ module BUS_controller_top #(
 
 //    wire [31:0] rdata;
     wire [31:0] addr;
+    wire [31:0] wdata;
 
     Multiplexer4to1 DATA_MUX(
         .CS(data_CS),
         .din0(ALU_din),
         .din1(reg_din0),
-        .din2(reg_din2),
+        .din2(reg_din1),
         .din3(IM_din),
-        .dout(rdata)
+        .dout(wdata)
     );
 
     Multiplexer8to1 ADDR_MUX(
@@ -59,10 +60,10 @@ module BUS_controller_top #(
     BUS_controller CPU_BUS (
         .clk(clk),
         .rst_n(rst_n),
-        .mode(mode_BUS),
-        .rdata_valid(rdata_valid_BUS),
-        .write_done(write_done_BUS),
-        .start_transaction(start_transaction_BUS),
+        .mode(mode),
+        .rdata_valid(rdata_valid),
+        .write_done(write_done),
+        .start_transaction(start_transaction),
         .rdata(rdata),
         .addr(addr),
         .wdata(wdata),

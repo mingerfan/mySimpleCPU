@@ -62,7 +62,7 @@ module CPU_core(
         .ALU_mode(ALU_mode),
         .num1_CS(ALU_CS),
         .PC_din_num1(PC),
-        .IM_din_num1(),
+        .IM_din_num1(IM),
         .reg_din0_num1(reg_rdata1),
         .reg_din1_num2(reg_rdata2),
         .ALU_out(ALU_out)
@@ -75,7 +75,7 @@ module CPU_core(
         .din2(reg_rdata2),
         .din3(PC),
         .din4(IM),
-        .din5(32'd0),
+        .din5(rdata_BUS),
         .din6(32'd0),
         .din7(32'd0),
         .dout(reg_wdata)
