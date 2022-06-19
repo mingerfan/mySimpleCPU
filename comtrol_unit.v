@@ -39,7 +39,7 @@ module comtrol_unit(
     output [1:0] ALU_CS1,
     output [1:0] ALU_CS2,
     output [2:0] BUS_ADDR_CS,
-    output [2:0] BUS_DATA_CS,
+    output [1:0] BUS_DATA_CS,
     output BUS_mode,
     output BUS_start_transaction,
     output [31:0] IM
@@ -68,7 +68,7 @@ module comtrol_unit(
         .clk(clk),
         .rst_n(rst_n),
         .RUN(RUN),
-        .stop(1'b0),
+        .stop(stop),
         .done(done),
         .cnt_set(cnt_set),
         .Mif(Mif),
@@ -92,7 +92,8 @@ module comtrol_unit(
         .reg_rs1(reg_rs1),
         .reg_rs2(reg_rs2),
         .reg_rd(reg_rd),
-        .cnt_set(cnt_set)
+        .cnt_set(cnt_set),
+        .stop(stop)
     );
 
     control_logic core_logic(

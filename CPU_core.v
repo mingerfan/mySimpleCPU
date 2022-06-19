@@ -22,7 +22,7 @@ module CPU_core(
     wire [31:0] IM;
 
     wire [2:0] addr_CS;
-    wire [3:0] data_CS; 
+    wire [1:0] data_CS; 
 
     wire [4:0] reg_raddr1;
     wire [4:0] reg_raddr2;

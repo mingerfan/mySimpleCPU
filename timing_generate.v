@@ -47,6 +47,44 @@ module timing_generate(
     reg [1:0] cnt;
     reg Mif_r, Mex_r, T1_r, T2_r, T3_r, T4_r;
 
+    reg T1_act, T2_act, T3_act, T4_act;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || (next_state != EX1 && next_state != IF1)) begin
+            T1_act <= 1'b0;
+        end
+        else if (T1) begin
+            T1_act <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || (next_state != EX2 && next_state != IF2)) begin
+            T2_act <= 1'b0;
+        end
+        else if (T2) begin
+            T2_act <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || next_state != EX3) begin
+            T3_act <= 1'b0;
+        end
+        else if (T3) begin
+            T3_act <= 1'b1;
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n || next_state != EX4) begin
+            T4_act <= 1'b0;
+        end
+        else if (T4) begin
+            T4_act <= 1'b1;
+        end
+    end
+
     assign Mif = Mif_r;
     assign Mex = Mex_r;
     assign T1 = T1_r;
@@ -83,7 +121,7 @@ module timing_generate(
                 end
             end
             IF2: begin
-                if (done && stop) begin
+                if (stop) begin
                     next_state = IDLE;
                 end
                 else if (done && ~stop) begin
@@ -158,43 +196,68 @@ module timing_generate(
                 IF1: begin
                     Mif_r = 1'b1;
                     Mex_r = 1'b0;
-                    T1_r = 1'b1;
                     T2_r = 1'b0;
                     T3_r = 1'b0;
                     T4_r = 1'b0;
+                    if (~T1_act && ~T1) begin
+                        T1_r = 1'b1;
+                    end
+                    else begin
+                        T1_r = 1'b0;
+                    end 
                 end 
                 IF2: begin
                     Mif_r = 1'b1;
                     Mex_r = 1'b0;
                     T1_r = 1'b0;
-                    T2_r = 1'b1;
                     T3_r = 1'b0;
-                    T4_r = 1'b0;                    
+                    T4_r = 1'b0; 
+                    if (~T2_act && ~T2) begin
+                        T2_r = 1'b1;
+                    end
+                    else begin
+                        T2_r = 1'b0;
+                    end                          
                 end
                 EX1: begin
                     cnt = cnt_set;
                     Mif_r = 1'b0;
                     Mex_r = 1'b1;
-                    T1_r = 1'b1;
                     T2_r = 1'b0;
                     T3_r = 1'b0;
-                    T4_r = 1'b0;                    
+                    T4_r = 1'b0;
+                    if (~T1_act && ~T1) begin
+                        T1_r = 1'b1;
+                    end
+                    else begin
+                        T1_r = 1'b0;
+                    end 
                 end
                 EX2: begin
                     Mif_r = 1'b0;
                     Mex_r = 1'b1;
                     T1_r = 1'b0;
-                    T2_r = 1'b1;
                     T3_r = 1'b0;
-                    T4_r = 1'b0;                    
+                    T4_r = 1'b0;
+                    if (~T2_act && ~T2) begin
+                        T2_r = 1'b1;
+                    end
+                    else begin
+                        T2_r = 1'b0;
+                    end                     
                 end
                 EX3: begin
                     Mif_r = 1'b0;
                     Mex_r = 1'b1;
                     T1_r = 1'b0;
                     T2_r = 1'b0;
-                    T3_r = 1'b1;
-                    T4_r = 1'b0;                     
+                    T4_r = 1'b0;
+                    if (~T3_act && ~T3) begin
+                        T3_r = 1'b1;
+                    end
+                    else begin
+                        T3_r = 1'b0;
+                    end                           
                 end
                 EX4: begin
                     Mif_r = 1'b0;
@@ -202,7 +265,12 @@ module timing_generate(
                     T1_r = 1'b0;
                     T2_r = 1'b0;
                     T3_r = 1'b0;
-                    T4_r = 1'b1;                     
+                    if (~T4_act && ~T4) begin
+                        T4_r = 1'b1;
+                    end
+                    else begin
+                        T4_r = 1'b0;
+                    end                          
                 end
                 default: begin
                     Mif_r = 1'b0;

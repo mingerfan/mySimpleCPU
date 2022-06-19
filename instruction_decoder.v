@@ -33,7 +33,8 @@ module instruction_decoder(
     output reg [4:0] reg_rs1,
     output reg [4:0] reg_rs2,
     output reg [4:0] reg_rd,
-    output [1:0] cnt_set
+    output [1:0] cnt_set,
+    output stop
     );
 
     wire R, I, S, J, IMM, LUI;
@@ -43,6 +44,8 @@ module instruction_decoder(
 
     reg [31:0] IM_in;
     assign IM = IM_in;
+
+    assign stop = ~R & ~I & ~S & ~I & ~IMM & ~LUI;
 
     assign R = (instruction[`OP_range] == `R_OP);
     assign I = (instruction[`OP_range] == `I_OP);
