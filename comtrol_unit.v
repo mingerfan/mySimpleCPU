@@ -24,6 +24,7 @@ module comtrol_unit(
     input clk,
     input rst_n,
     input RUN,
+    input [31:0] instruction,
     input BUS_rdata_valid,
     input BUS_write_done,
     output [2:0] reg_mux_CS,
@@ -41,4 +42,36 @@ module comtrol_unit(
     output BUS_mode,
     output BUS_start_transaction
     );
+
+    wire stop;
+    wire done;
+    wire [1:0] cnt_set;
+    wire Mif, Mex, T1, T2, T3, T4;
+
+    reg ins_reg_EN;
+
+    wire [31:0] reg_instruction;
+
+    Register_asyn ins_reg(
+        .clk(clk),
+        .rst_n(rst_n),
+        .EN(ins_reg_EN),
+        .din(instruction),
+        .dout(reg_instruction)
+    );
+
+    timing_generate timing_gen (
+        .clk(clk),
+        .rst_n(rst_n),
+        .RUN(RUN),
+        .stop(stop),
+        .done(done),
+        .cnt_set(cnt_set),
+        .Mif(Mif),
+        .T1(T1),
+        .T2(T2),
+        .T3(T3),
+        .T4(T4)
+    );
+
 endmodule

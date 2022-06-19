@@ -122,10 +122,12 @@ module CPU_core(
         .BUS_mode(BUS_mode)
     );
 
+
     comtrol_unit CPU_control(
         .clk(clk),
         .rst_n(rst_n),
         .RUN(RUN),
+        .instruction(rdata_BUS),
         .BUS_rdata_valid(rdata_valid_BUS),
         .BUS_write_done(write_done_BUS),
         .reg_mux_CS(reg_CS),
