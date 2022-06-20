@@ -45,7 +45,7 @@ module instruction_decoder(
     reg [31:0] IM_in;
     assign IM = IM_in;
 
-    assign stop = ~R & ~I & ~S & ~I & ~IMM & ~LUI;
+    assign stop = ~R & ~I & ~S & ~J & ~IMM & ~LUI;
 
     assign R = (instruction[`OP_range] == `R_OP);
     assign I = (instruction[`OP_range] == `I_OP);
@@ -70,7 +70,7 @@ module instruction_decoder(
     always @(*) begin
         IM_in = 32'b0;
         if (ins_LW) begin
-            IM_in = {20'b0, instruction[11:0]};
+            IM_in = {20'b0, instruction[31:20]};
         end
         else if (ins_SW) begin
             IM_in = {20'b0, instruction[11:5],instruction[4:0]};

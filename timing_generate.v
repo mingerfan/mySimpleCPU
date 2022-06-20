@@ -34,10 +34,11 @@ module timing_generate(
     output T3,
     output T4,
     output T1_Mif,
-    output T2_Mif
+    output T2_Mif,
+    output [2:0] cur_state
     );
 
-    parameter [2:0] IDLE = 3'd0,
+    localparam [2:0] IDLE = 3'd0,
         IF1 = 3'd1,
         IF2 = 3'd2,
         EX1 = 3'd3,
@@ -84,7 +85,7 @@ module timing_generate(
     end
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n || (next_state != EX2 && next_state != IF2)) begin
+        if (!rst_n || next_state != EX2) begin
             T2_act <= 1'b0;
         end
         else if (T2) begin
@@ -221,6 +222,7 @@ module timing_generate(
                 IF1: begin
                     Mif_r = 1'b1;
                     Mex_r = 1'b0;
+                    T1_r = 1'b0;
                     T2_r = 1'b0;
                     T3_r = 1'b0;
                     T4_r = 1'b0;
@@ -235,6 +237,7 @@ module timing_generate(
                     Mif_r = 1'b1;
                     Mex_r = 1'b0;
                     T1_r = 1'b0;
+                    T2_r = 1'b0;
                     T3_r = 1'b0;
                     T4_r = 1'b0; 
                     if (~T2_Mif_act && ~T2_Mif_r) begin
@@ -265,6 +268,7 @@ module timing_generate(
                     T3_r = 1'b0;
                     T4_r = 1'b0;
                     if (~T2_act && ~T2) begin
+                        cnt = cnt - 1;
                         T2_r = 1'b1;
                     end
                     else begin
@@ -278,6 +282,7 @@ module timing_generate(
                     T2_r = 1'b0;
                     T4_r = 1'b0;
                     if (~T3_act && ~T3) begin
+                        cnt = cnt - 1;
                         T3_r = 1'b1;
                     end
                     else begin
@@ -291,6 +296,7 @@ module timing_generate(
                     T2_r = 1'b0;
                     T3_r = 1'b0;
                     if (~T4_act && ~T4) begin
+                        cnt = cnt - 1;
                         T4_r = 1'b1;
                     end
                     else begin

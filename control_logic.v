@@ -31,6 +31,7 @@ module control_logic(
     input T4,
     input T1_Mif,
     input T2_Mif,
+    input [2:0] cur_state,
 
     output reg output_done,
     output wire ins_reg_en,
@@ -40,8 +41,8 @@ module control_logic(
     output reg PC_EN,
     output reg PC_mode,
     output reg ALU_mode,
-    output reg [1:0] ALU_CS1,
-    output wire [1:0] ALU_CS2,
+    output wire [1:0] ALU_CS1,
+    output reg [1:0] ALU_CS2,
     output reg [2:0] BUS_ADDR_CS,
     output wire [2:0] BUS_DATA_CS,
     output reg BUS_mode,
@@ -55,6 +56,14 @@ module control_logic(
     input ins_LUI, // load immediate number
     input ins_JAL
     );
+
+    localparam [2:0] IDLE = 3'd0,
+        IF1 = 3'd1,
+        IF2 = 3'd2,
+        EX1 = 3'd3,
+        EX2 = 3'd4,
+        EX3 = 3'd5,
+        EX4 = 3'd6;
 
     assign ins_reg_en = BUS_rdata_valid && Mif;
 
@@ -95,10 +104,10 @@ module control_logic(
         if (Mif) begin
             output_done = BUS_rdata_valid;
         end
-        else if (Mex && ins_SW) begin
+        else if (Mex && ins_SW && cur_state == EX2) begin
             output_done = BUS_write_done;
         end
-        else if (Mex && ins_LW) begin
+        else if (Mex && ins_LW && cur_state == EX2) begin
             output_done = BUS_rdata_valid;
         end
         else begin
@@ -153,7 +162,7 @@ module control_logic(
         // if (Mif && T1) begin
         //     PC_CS = PC_CS_ALU;
         // end
-        if (Mex && ins_JAL) begin
+        if (ins_JAL) begin
             PC_CS = `PC_CS_ALU;
         end
         else begin
@@ -166,8 +175,11 @@ module control_logic(
         if (Mif) begin
             PC_mode = `PC_mode_inc;
         end
-        else begin
+        else if (ins_JAL) begin
             PC_mode = `PC_mode_jal;
+        end
+        else begin
+            PC_mode = `PC_mode_inc;
         end
     end
 
@@ -194,20 +206,17 @@ module control_logic(
         end
     end
 
+   assign ALU_CS1 = `ALU_CS1_reg0;
+
     always @(*) begin
-        ALU_CS1 = `ALU_CS1_reg0;
-        if (ins_ADD || ins_SUB) begin
-            ALU_CS1 = `ALU_CS1_reg0;
-        end
-        else if (ins_ADDI) begin
-            ALU_CS1 = `ALU_CS1_IM;
+        ALU_CS2 = `ALU_CS2_reg1;
+        if (ins_ADDI || ins_SW || ins_LW) begin
+            ALU_CS2 = `ALU_CS2_IM;
         end
         else begin
-            ALU_CS1 = `ALU_CS1_reg0;
+            ALU_CS2 = `ALU_CS2_reg1;
         end
     end
-
-    assign ALU_CS2 = `ALU_CS2_reg1;
 
     always @(*) begin
         BUS_ADDR_CS = `BUS_ADDR_CS_PC;
