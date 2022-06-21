@@ -81,7 +81,7 @@ module comtrol_unit(
         .T4(T4),
         .T1_Mif(T1_Mif),
         .T2_Mif(T2_Mif),
-        .cur_state(cur_state)
+        .cur_state_out(cur_state)
     );
 
     instruction_decoder decoder(

@@ -55,7 +55,7 @@ module instruction_decoder(
     assign LUI = (instruction[`OP_range] == `LUI_OP);
 
     assign ins_ADD = R && (instruction[`FUN3_range] == `R_FUN3_ADD)
-        && (instruction[`FUN7_range] ==` R_FUN7_ADD);
+        && (instruction[`FUN7_range] ==`R_FUN7_ADD);
     
     assign ins_SUB = R && (instruction[`FUN3_range] == `R_FUN3_SUB)
         && (instruction[`FUN7_range] == `R_FUN7_SUB);
@@ -76,7 +76,7 @@ module instruction_decoder(
             IM_in = {20'b0, instruction[11:5],instruction[4:0]};
         end
         else if (ins_ADDI) begin
-            IM_in = {20'b0, instruction[11:0]};
+            IM_in = {{20{instruction[31]}}, instruction[31:20]};
         end
         else if (ins_LUI) begin
             IM_in = {instruction[31:12], 12'b0};

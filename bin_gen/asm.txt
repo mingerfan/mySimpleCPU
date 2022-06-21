@@ -1,0 +1,10 @@
+start:
+add x14, x12, x13
+addi x13, x12, 5
+lui x8, 0xf0000
+sub x14, x12, x13
+lw x13, 4(x12)
+jal x1, main
+
+main:
+jal x1, start
