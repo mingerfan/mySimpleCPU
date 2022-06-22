@@ -73,7 +73,7 @@ module instruction_decoder(
             IM_in = {20'b0, instruction[31:20]};
         end
         else if (ins_SW) begin
-            IM_in = {20'b0, instruction[11:5],instruction[4:0]};
+            IM_in = {20'b0, instruction[31:25],instruction[11:7]};
         end
         else if (ins_ADDI) begin
             IM_in = {{20{instruction[31]}}, instruction[31:20]};
@@ -83,7 +83,7 @@ module instruction_decoder(
         end
         else if (ins_JAL) begin
             IM_in = {11'b0 ,instruction[31], instruction[19:12], 
-            instruction[20], instruction[30:21]};
+            instruction[20], instruction[30:21], 1'b0};
         end
         else begin
             IM_in = 32'b0;

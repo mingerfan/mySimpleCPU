@@ -2,6 +2,7 @@ start:
 add x14, x12, x13
 addi x13, x12, 5
 lui x8, 0xf0000
+sw x8, 128(x0)
 sub x14, x12, x13
 lw x13, 4(x12)
 jal x1, main

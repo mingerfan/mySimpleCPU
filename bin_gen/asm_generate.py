@@ -148,6 +148,7 @@ def tr_addr16_bin(addr_in: int, begin: int, end: int):
     res_ = res_.rjust(32, '0')
     for index in range(len(res_)-end, len(res_)-begin):
         string += res_[index]
+    print(len(string))
     return string
 
 

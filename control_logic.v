@@ -163,7 +163,7 @@ module control_logic(
         //     PC_CS = PC_CS_ALU;
         // end
         if (ins_JAL) begin
-            PC_CS = `PC_CS_ALU;
+            PC_CS = `PC_CS_IM;
         end
         else begin
             PC_CS = 2'd0;
